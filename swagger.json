@@ -1,0 +1,169 @@
+{
+  "openapi": "3.0.1",
+  "info": {
+    "title": "Fastfood Authentication",
+    "version": "1.0"
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "For local"
+    },
+    {
+      "url": "http://localhost",
+      "description": "For docker"
+    }
+  ],
+  "paths": {
+    "/auth/admin/login": {
+      "post": {
+        "tags": ["Admin"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/login_body"
+              },
+              "examples": {
+                "example": {
+                  "value": "{\"email\": \"admin@gmail.com\",\n\"password\": \"password\"}"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfuly!"
+          },
+          "400": {
+            "description": "Invalid input"
+          },
+          "404": {
+            "description": "Admin not found!"
+          }
+        }
+      }
+    },
+    "/auth/admin/logout": {
+      "post": {
+        "tags": ["Admin"],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successfuly!"
+          },
+          "401": {
+            "description": "Authentication failed!"
+          }
+        }
+      }
+    },
+    "/auth/register": {
+      "post": {
+        "tags": ["User"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/register_body"
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfuly"
+          },
+          "400": { "description": "Invalid input" }
+        }
+      }
+    },
+    "/auth/login": {
+      "post": {
+        "tags": ["User"],
+        "requestBody": {
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/login_body"
+              },
+              "examples": {
+                "0": {
+                  "value": "{\"email\": \"user@gmail.com\",\n\"password\": \"user\"}"
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": {
+            "description": "Successfuly!"
+          },
+          "400": {
+            "description": "Invalid input!"
+          },
+          "404": {
+            "description": "User not found!"
+          }
+        }
+      }
+    },
+    "/auth/logout": {
+      "post": {
+        "tags": ["User"],
+        "security": [{ "Bearer": [] }],
+        "responses": {
+          "200": {
+            "description": "Successfuly!"
+          },
+          "401": {
+            "description": "Authentication failed!"
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "schemas": {
+      "login_body": {
+        "type": "object",
+        "properties": {
+          "password": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          }
+        }
+      },
+      "register_body": {
+        "type": "object",
+        "properties": {
+          "firstName": {
+            "type": "string"
+          },
+          "lastName": {
+            "type": "string"
+          },
+          "password": {
+            "type": "string"
+          },
+          "phoneNumber": {
+            "type": "number"
+          },
+          "email": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "securitySchemes": {
+      "Bearer": {
+        "type": "apiKey",
+        "name": "Authorization",
+        "in": "header"
+      }
+    }
+  }
+}

@@ -1,0 +1,19 @@
+version: '3.5'
+services:
+  auth:
+    container_name: fastfood-auth
+    image: fastfood-auth
+    command: npm start
+    restart: always
+    build: .
+    volumes:
+      - ./src:/fastfood-auth/src
+    ports:
+      - '3001:3000'
+    networks:
+      - common
+
+networks:
+  common:
+    internal: true
+    name: ${COMMON_NETWORK_NAME}-common-network
